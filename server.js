@@ -25,7 +25,7 @@ setInterval(() => {
   wss.clients.forEach((client) => {
     client.send('PING:' + Date.now());
   });
-}, 30000);
+}, 10000);
 
 function sendAll (message) {
     for (var i=0; i<CLIENTS.length; i++) {
