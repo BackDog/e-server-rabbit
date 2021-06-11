@@ -12,7 +12,7 @@ const server = express()
 
 const wss = new Server({ server });
 
-CLIENTS=[];
+var CLIENTS=[];
 wss.on('connection', function connection(ws) {
     CLIENTS.push(ws);
     ws.on('message', function incoming(message) {
