@@ -12,12 +12,30 @@ const server = express()
 
 const wss = new Server({ server });
 
+const socketsStatus = {};
+
 wss.on('connection', (ws) => {
+    const socketId = socket.id;
+    socketsStatus[socket.id] = {};
+  
     console.log('Client connected');
+  
     ws.on('message', function(message) {
-        wss.clients.forEach((client) => {
-            client.send(message);
-        });
+        var data = JSON.parse(message);
+        if (data.emit == "voice") {
+          var newData = data.split(";");
+          newData[0] = "data:audio/ogg;";
+          newData = newData[0] + newData[1];
+          wss.clients.forEach((client) => {
+              client.send(JSON.stringify({emit:"send",data:newData}));
+          });
+        }else if (data.emit == "userInformation") {
+          socketsStatus[socketId] = data.data;
+          ws.send(JSON.stringify({emit:"usersUpdate",data:socketsStatus}));
+        }
     });
-    ws.on('close', () => console.log('Client disconnected'));
+  
+    ws.on('close', () => function () {
+      delete socketsStatus[socketId];
+    });
 });
