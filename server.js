@@ -33,9 +33,7 @@ wss.on('connection', (ws) => {
           });
         }else if (data.emit === "userInformation") {
           socketsStatus[socketId] = data.data;
-          wss.clients.forEach((client) => {
-              client.send(JSON.stringify({emit:"usersUpdate",data:socketsStatus}));
-          });
+          ws.send(JSON.stringify({emit:"usersUpdate",data:socketsStatus}));
         }
     });
   
