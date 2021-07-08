@@ -22,14 +22,16 @@ wss.on('connection', (ws) => {
   
     ws.on('message', function(message) {
         var data = JSON.parse(message);
-        if (data.emit == "voice") {
+      
+        if (data.emit === "voice") {
+          
           var newData = data.split(";");
           newData[0] = "data:audio/ogg;";
           newData = newData[0] + newData[1];
           wss.clients.forEach((client) => {
               client.send(JSON.stringify({emit:"send",data:newData}));
           });
-        }else if (data.emit == "userInformation") {
+        }else if (data.emit === "userInformation") {
           socketsStatus[socketId] = data.data;
           wss.clients.forEach((client) => {
               client.send(JSON.stringify({emit:"usersUpdate",data:socketsStatus}));
