@@ -25,7 +25,7 @@ wss.on('connection', (ws) => {
       
         if (data.emit === "voice") {
           
-          var newData = data.split(";");
+          var newData = data.data.split(";");
           newData[0] = "data:audio/ogg;";
           newData = newData[0] + newData[1];
           wss.clients.forEach((client) => {
