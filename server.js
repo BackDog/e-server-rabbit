@@ -41,3 +41,8 @@ wss.on('connection', (ws) => {
       delete socketsStatus[socketId];
     });
 });
+setInterval(function() { 
+    wss.clients.forEach((client) => {
+        client.send(JSON.stringify({}));
+    }); 
+}, 1000);
