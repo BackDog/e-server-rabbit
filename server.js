@@ -15,8 +15,8 @@ const wss = new Server({ server });
 const socketsStatus = {};
 
 wss.on('connection', (ws) => {
-    const socketId = socket.id;
-    socketsStatus[socket.id] = {};
+    const socketId = ws.id;
+    socketsStatus[ws.id] = {};
   
     console.log('Client connected');
   
